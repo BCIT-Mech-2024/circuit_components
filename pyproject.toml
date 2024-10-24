@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "circuit-components"
+version = "0.1.0"
+description = ""
+authors = ["bekreth <bekreth@proton.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "^8.3.3"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-v -ra -q"
+testpaths = [
+    "tests",
+    "integration",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
