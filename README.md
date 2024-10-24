@@ -9,4 +9,11 @@ Clone the project, add the reference path to the project in your Poetry config
 poetry install
 ```
 
+## Examples
+The samples directory shows how to use this library.  You can run any of the 
+samples provided with
+```
+poetry run python example/${sample_name}/__init__.py
+```
+
 

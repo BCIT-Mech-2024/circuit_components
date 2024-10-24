@@ -48,38 +48,34 @@ class TestResistorAdditionParallel(TestResistor):
         assert self._resitor1 * self._resitor2 == Resistor(resistance=200)
 
 class TestResistorCalculate(TestResistor):
+    resistance=2000
+    voltage=10
+    current=0.005
+    power=0.05
     _expected_resistor = Resistor(
-        resistance=2000,
-        voltage=10,
-        current=0.005,
-        power=0.05,
+        resistance=resistance,
+        voltage=voltage,
+        current=current,
+        power=power,
     )
 
     def test_calculate_empty(self):
         test_resistor = Resistor()
         assert test_resistor.calculate() is None
 
-    def test_calculate_only_resistance(self):
-        test_resistor = Resistor().set_resistance(1200)
-        assert test_resistor.calculate() is None
-
-    def test_calculate_with_voltage(self):
-        test_resistor = Resistor(
-            resistance=2000,
-            voltage=10,
-        )
-        assert test_resistor.calculate() == self._expected_resistor
-
-    def test_calculate_with_current(self):
-        test_resistor = Resistor(
-            resistance=2000,
-            current=0.005,
-        )
-        assert test_resistor.calculate() == self._expected_resistor
-
-    def test_calculate_with_power(self):
-        test_resistor = Resistor(
-            resistance=2000,
-            power=0.05,
-        )
-        assert test_resistor.calculate() == self._expected_resistor
+    def test_all_calculations(self):
+        names = ["resistance", "voltage", "current", "power"]
+        attributes = [self.resistance, self.voltage, self.current, self.power]
+        for i in range(0, 4):
+            for j in range(i+1, 4):
+                values = [None, None, None, None]
+                values[i] = attributes[i]
+                values[j] = attributes[j]
+                print(values)
+                resistor_under_test = Resistor(
+                    values[0],
+                    values[1],
+                    values[2],
+                    values[3],
+                )
+                assert resistor_under_test.calculate() == self._expected_resistor, "Testing resistors with {} and {}".format(names[i], names[j])

@@ -24,9 +24,14 @@ class Resistor:
         self._power = power
         return self
 
-    ## TODO: Update this to solve any of the 4 values from 2 provided
     def calculate(self):
-        if self._resistance is None: return None
+        if self._resistance is not None: return self._calculate_from_known_resistance()
+        elif self._voltage is not None: return self._calculate_from_known_voltage()
+        elif self._current is not None: return self._calculate_from_known_current()
+        else: return None
+
+
+    def _calculate_from_known_resistance(self):
         output = Resistor()
         if self._voltage is not None:
             output._resistance = self._resistance
@@ -42,6 +47,31 @@ class Resistor:
             output._resistance = self._resistance
             output._voltage = math.sqrt(self._power * self._resistance)
             output._current = math.sqrt(self._power / self._resistance)
+            output._power = self._power
+        else: return None
+        return output
+
+    def _calculate_from_known_voltage(self):
+        output = Resistor()
+        if self._current is not None:
+            output._resistance = self._voltage / self._current
+            output._voltage = self._voltage
+            output._current = self._current
+            output._power = self._voltage * self._current
+        elif self._power is not None:
+            output._resistance = self._voltage**2 / self._power
+            output._voltage = self._voltage
+            output._current = self._power / self._voltage
+            output._power = self._power
+        else: return None
+        return output
+
+    def _calculate_from_known_current(self):
+        output = Resistor()
+        if self._power is not None:
+            output._resistance = self._power / self._current**2
+            output._voltage = self._power / self._current
+            output._current = self._current
             output._power = self._power
         else: return None
         return output
